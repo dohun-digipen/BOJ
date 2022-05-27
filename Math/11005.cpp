@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
 
-std::string ToString(int num){
-	if(num < 10){
-		return std::to_string(num);
+std::string Reverse(std::string _s){
+	int len = _s.length();
+	std::string s;
+	
+	for(int i = len - 1; i >= 0; i--){
+		s += _s[i];
 	}
-	std::string s = "7" + 55;
+	
 	return s;
 }
 
@@ -16,15 +19,22 @@ int main(){
 	std::cin >> n >> b;
 	
 	while(true){
-		if(b > n){
-			s += ToString(n);
+		int num = n % b;
+		if(n == 0){
 			break;
 		}
 		
-		s += ToString(n / b);
+		if(num > 9){
+			s += (char)(num + 55);
+		}else{
+			s += std::to_string(num);
+		}
+		
 		n = n / b;
 		
 		
 	}
-	std::cout << s;
+	
+	
+	std::cout << Reverse(s);
 }
