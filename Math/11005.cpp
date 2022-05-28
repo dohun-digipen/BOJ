@@ -29,10 +29,7 @@ int main(){
 		}else{
 			s += std::to_string(num);
 		}
-		
 		n = n / b;
-		
-		
 	}
 	
 	
