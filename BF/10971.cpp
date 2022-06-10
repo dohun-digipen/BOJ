@@ -1,38 +1,42 @@
 #include <iostream>
 #include <vector>
 
-int min = 100000000;
+int min = 1e9;
 int arr[10][10];
 bool visited[10];
 std::vector<int> path;
 int n;
-int dst;
 
 int Sum(){
 	int sum = 0;
-	for(auto i : path){
-		std::cout << i << " ";
-		sum += i;
+	for(int i = 0; i < n - 1; i++){
+		if(arr[path[i]][path[i + 1]] == 0){
+			return sum = 1e9;
+		}
+		sum += arr[path[i]][path[i + 1]];
 	}
-	std::cout << "\n";
+	if(arr[path.back()][path[0]] == 0){
+		return 1e9;
+	}
+	sum += arr[path.back()][path[0]];
 	return sum;
 }
 
-void FindPath(int cnt, int start){
-	visited[start] = true;
-	if(cnt == n - 1){
+void FindPath(int cnt){
+	
+	if(cnt == n){
 		int sum = Sum();
-		if(min > sum){
+		if(sum < min){
 			min = sum;
-			dst = start;
 		}
 		return;
 	}
 	
 	for(int i = 0; i < n; i++){
-		if(arr[start][i] != 0 && visited[i] == false){
-			path.push_back(arr[start][i]);
-			FindPath(cnt + 1, i);
+		if(visited[i] == false){
+			visited[i] = true;
+			path.push_back(i);
+			FindPath(cnt + 1);
 			path.pop_back();
 			visited[i] = false;
 		}
@@ -50,10 +54,7 @@ int main(){
 		visited[i] = false;
 	}
 	
-	for(int i = 0; i < n; i++){
-		FindPath(0, i);
-		//std::cout << "s : " << i << " dst : " << dst << "\n"; 
-	}
+	FindPath(0);
 	
 	std::cout << min;
 }
