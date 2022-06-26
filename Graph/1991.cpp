@@ -1,91 +1,70 @@
 #include <iostream>
 #include <cstring>
-#include <string>
-class Node{
-public:
-	Node(char _name, Node* _left, Node* _right){
-		std::cout << 
-		name = _name;
-		left = _left;
-		right = _right;
-	}
-	char name;
-	Node* left;
-	Node* right;
-};
 
-const int MAX = 27;
-Node* tree[MAX];
+const int MAX = 26 * 3;
+int tree[MAX] = {-1};
 bool isVisited[MAX];
 int n;
 
 
-void PreOrder(Node* curNode){
-	int idx = curNode->name - 'A';
+void PreOrder(int idx){
 	isVisited[idx] = true;
-	std::cout << curNode->name;
-	if(curNode->left != nullptr){
-		PreOrder(curNode->left);
+	std::cout << char('A' + idx);
+	if(tree[idx * 2] != -1 && isVisited[tree[idx * 2]] == false){
+		PreOrder(tree[idx * 2]);
 	}
-	if(curNode->right != nullptr){
-		PreOrder(curNode->right);
+	if(tree[(idx * 2) + 1] != -1 && isVisited[tree[(idx * 2) + 1]] == false){
+		PreOrder(tree[(idx * 2) + 1]);
 	}
 }
 
-void InOrder(Node* curNode){
-	int idx = curNode->name - 'A';
-	if(curNode->left != nullptr){
-		InOrder(curNode->left);
+void InOrder(int idx){
+	if(tree[idx * 2] != -1 && isVisited[tree[idx * 2]] == false){
+		InOrder(tree[idx * 2]);
 	}
 	isVisited[idx] = true;
-	std::cout << curNode->name;
-	if(curNode->right != nullptr){
-		InOrder(curNode->right);
+	std::cout << char('A' + idx);
+	if(tree[(idx * 2) + 1] != -1 && isVisited[tree[(idx * 2) + 1]] == false){
+		InOrder(tree[(idx * 2) + 1]);
 	}
 }
 
-void PostOrder(Node* curNode){
-	int idx = curNode->name - 'A';
-	if(curNode->left != nullptr){
-		PostOrder(curNode->left);
+void PostOrder(int idx){
+	if(tree[idx * 2] != -1 && isVisited[tree[idx * 2]] == false){
+		PostOrder(tree[idx * 2]);
 	}
-	if(curNode->right != nullptr){
-		PostOrder(curNode->right);
+	if(tree[(idx * 2) + 1] != -1 && isVisited[tree[(idx * 2) + 1]] == false){
+		PostOrder(tree[(idx * 2) + 1]);
 	}
 	isVisited[idx] = true;
-	std::cout << curNode->name;
+	std::cout << char('A' + idx);
 }
 
 int main(){
-	//std::ios_base :: sync_with_stdio(false);
-	//std::cin.tie(NULL);
-	//std::cout.tie(NULL);
+	std::ios_base :: sync_with_stdio(false);
+	std::cin.tie(NULL);
+	std::cout.tie(NULL);
 	
 	char rightNode, leftNode, cur;
 	std::cin >> n;
 	for(int i = 0; i < n; i++){
-		char c = 'A' + i;
-		tree[n] = new Node('A' + n, nullptr, nullptr);
-	}
-	for(int i = 0; i < n; i++){
 		std::cin >> cur >> leftNode >> rightNode;
-		int idx = cur - 'A';
-		Node* curNode = tree[idx];
+		int idx;
 		if(leftNode != '.'){
 			idx = leftNode - 'A';
-			curNode->left = tree[idx];
+			tree[idx * 2] = idx;
 		}
 		if(rightNode != '.'){
 			idx = rightNode - 'A';
-			curNode->right = tree[idx];
+			tree[(idx * 2) + 1] = idx;
 		}
 	}
 	
-	PreOrder(tree[0]);
+	PreOrder(0);
 	memset(isVisited, false, sizeof(isVisited));
 	std::cout << "\n";
-	InOrder(tree[0]);
+	InOrder(0);
 	memset(isVisited, false, sizeof(isVisited));
 	std::cout << "\n";
-	PostOrder(tree[0]);
+	PostOrder(0);
 }
