@@ -32,7 +32,7 @@ int BSUpper(int num){
 			hi = mid - 1;
 		}
 	}
-	return hi;
+	return hi + 1;
 }
 
 int main(){
@@ -50,6 +50,6 @@ int main(){
 	std::cin >> m;
 	for(int i = 0; i < m; i++){
 		std::cin >> temp;
-		std::cout << BSUpper(temp) - BSLower(temp) + 1 << " ";
+		std::cout << BSUpper(temp) - BSLower(temp)<< " ";
 	}
 }
